@@ -1,0 +1,66 @@
+package com.theomn.sbt.babeljs
+
+import sbt._
+import sbt.Keys._
+import com.typesafe.sbt.web._
+import com.typesafe.sbt.jse.SbtJsTask
+import spray.json._
+
+object Import {
+
+  object BabelJSKeys {
+    val babeljs = TaskKey[Seq[File]]("babeljs", "Invoke the babel compiler.")
+
+    val compress = SettingKey[Boolean]("babel-compress", "Compress output by removing some whitespaces.")
+  }
+
+}
+
+object SbtBabelJS extends AutoPlugin {
+
+  override def requires = SbtJsTask
+
+  override def trigger = AllRequirements
+
+  val autoImport = Import
+
+  import SbtWeb.autoImport._
+  import WebKeys._
+  import SbtJsTask.autoImport.JsTaskKeys._
+  import autoImport.BabelJSKeys._
+
+  val babeljsUnscopedSettings = Seq(
+
+    includeFilter := GlobFilter("*.es6.js"),
+
+    jsOptions := JsObject(
+      "compress" -> JsBoolean(compress.value)
+    ).toString()
+  )
+
+  override def projectSettings = Seq(
+    compress := false
+
+  ) ++ inTask(babeljs)(
+    SbtJsTask.jsTaskSpecificUnscopedSettings ++
+      inConfig(Assets)(babeljsUnscopedSettings) ++
+      inConfig(TestAssets)(babeljsUnscopedSettings) ++
+      Seq(
+        moduleName := "babeljs",
+        shellFile := getClass.getClassLoader.getResource("babel-shell.js"),
+
+        taskMessage in Assets := "BabelJS compiling",
+        taskMessage in TestAssets := "BabelJS test compiling"
+      )
+  ) ++ SbtJsTask.addJsSourceFileTasks(babeljs) ++ Seq(
+    babeljs in Assets := (babeljs in Assets).dependsOn(
+      nodeModules in Plugin,
+      webModules in Assets
+    ).value,
+    babeljs in TestAssets := (babeljs in TestAssets).dependsOn(
+      nodeModules in Plugin,
+      webModules in TestAssets
+    ).value
+  )
+
+}
