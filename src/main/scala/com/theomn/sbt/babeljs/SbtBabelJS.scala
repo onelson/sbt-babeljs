@@ -6,12 +6,13 @@ import com.typesafe.sbt.web._
 import com.typesafe.sbt.jse.SbtJsTask
 import spray.json._
 
+
 object Import {
 
   object BabelJSKeys {
     val babeljs = TaskKey[Seq[File]]("babeljs", "Invoke the babel compiler.")
 
-    val compress = SettingKey[Boolean]("babel-compress", "Compress output by removing some whitespaces.")
+    val sourceMaps = SettingKey[Boolean]("babeljs-sourcemaps", "Add sourcemap data to the bottom of each processed file.")
   }
 
 }
@@ -30,16 +31,15 @@ object SbtBabelJS extends AutoPlugin {
   import autoImport.BabelJSKeys._
 
   val babeljsUnscopedSettings = Seq(
-
-    includeFilter := GlobFilter("*.es6.js"),
+    includeFilter := "*.es6.js" || "*.es6" || "*.jsx.js" || "*.jsx",
 
     jsOptions := JsObject(
-      "compress" -> JsBoolean(compress.value)
+      "sourceMap" -> JsString(if (sourceMaps.value) "inline" else "")
     ).toString()
   )
 
   override def projectSettings = Seq(
-    compress := false
+    sourceMaps := false
 
   ) ++ inTask(babeljs)(
     SbtJsTask.jsTaskSpecificUnscopedSettings ++

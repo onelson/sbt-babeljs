@@ -26,7 +26,7 @@ function processor(input, output) {
     options.filename = input;
 
     try {
-      result = {code: babel.transform(contents).code};
+      result = {code: babel.transform(contents, options).code};
     } catch (err) {
       throw parseError(input, contents, err);
     }
@@ -55,7 +55,7 @@ function processor(input, output) {
 
 jst.process({
   processor: processor,
-  inExt: /.(es6.js|es6|jsx.js|jsx|js)$/,
+  inExt: /.(es6.js|es6|jsx.js|jsx)$/,
   outExt: (args.options.compress? ".min.js" : ".js")
 }, args);
 
