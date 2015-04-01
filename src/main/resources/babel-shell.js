@@ -55,7 +55,7 @@ function processor(input, output) {
 
 jst.process({
   processor: processor,
-  inExt: /.(es6.js|es6|jsx.js|jsx)$/,
+  inExt: /\.(es6\.js|es6|jsx\.js|jsx)$/,
   outExt: ".js"
 }, args);
 

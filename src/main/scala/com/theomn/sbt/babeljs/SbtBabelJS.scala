@@ -32,7 +32,6 @@ object SbtBabelJS extends AutoPlugin {
 
   val babeljsUnscopedSettings = Seq(
     includeFilter := "*.es6.js" || "*.es6" || "*.jsx.js" || "*.jsx",
-
     jsOptions := JsObject(
       "sourceMap" -> JsString(if (sourceMaps.value) "inline" else "")
     ).toString()
