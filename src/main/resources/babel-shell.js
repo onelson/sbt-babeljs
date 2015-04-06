@@ -1,11 +1,12 @@
 /*global process, require */
 
+
 var fs = require("fs"),
-    jst = require("jstranspiler"),
-    nodefn = require("when/node"),
-    mkdirp = require("mkdirp"),
-    path = require("path"),
-    babel = require("babel-core");
+  jst = require("jstranspiler"),
+  nodefn = require("when/node"),
+  mkdirp = require("mkdirp"),
+  path = require("path"),
+  babel = require("babel-core");
 
 var promised = {
     mkdirp: nodefn.lift(mkdirp),
