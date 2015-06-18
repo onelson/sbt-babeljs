@@ -10,20 +10,16 @@ scalaVersion := "2.10.5"
 
 libraryDependencies ++= Seq(
   "com.typesafe" % "jstranspiler" % "1.0.0",
-  "org.webjars" % "mkdirp" % "0.3.5",
-  "org.webjars" % "when-node" % "3.2.2",
-  "org.webjars" % "babel" % "4.7.16-1-SNAPSHOT"
+  "org.webjars"  % "mkdirp" % "0.3.5",
+  "org.webjars"  % "when-node" % "3.2.2",
+  "org.webjars"  % "babel" % "4.7.16-1-SNAPSHOT"
 )
 
 resolvers ++= Seq(
-  "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
-  Resolver.url("sbt snapshot plugins", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots"))(Resolver.ivyStylePatterns),
-  Resolver.sonatypeRepo("snapshots"),
-  "Typesafe Snapshots Repository" at "http://repo.typesafe.com/typesafe/snapshots/",
-  Resolver.mavenLocal
+  "Typesafe Releases Repository" at "https://repo.typesafe.com/typesafe/maven-releases/"
 )
 
-addSbtPlugin("com.typesafe.sbt" %% "sbt-js-engine" % "1.0.2")
+addSbtPlugin("com.typesafe.sbt" %% "sbt-js-engine" % "1.1.2")
 
 publishMavenStyle := false
 
@@ -35,4 +31,3 @@ publishTo := {
 scriptedSettings
 
 scriptedLaunchOpts <+= version apply { v => s"-Dproject.version=$v" }
-
