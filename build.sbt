@@ -19,7 +19,7 @@ resolvers ++= Seq(
   "Typesafe Releases Repository" at "https://repo.typesafe.com/typesafe/maven-releases/"
 )
 
-addSbtPlugin("com.typesafe.sbt" %% "sbt-js-engine" % "1.1.2")
+addSbtPlugin("com.typesafe.sbt" %% "sbt-js-engine" % "1.1.3")
 
 publishMavenStyle := false
 
